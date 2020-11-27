@@ -1,9 +1,9 @@
-import 'package:charts_stats/graficas.dart';
 import 'package:charts_stats/tablas.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'bloc/home_bloc.dart';
+import 'graficas.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title}) : super(key: key);
@@ -48,11 +48,14 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: BlocBuilder<HomeBloc, HomeState>(
-        //TODO: add parameters to Table and charts
         builder: (context, state) {
           if (state is DataTableState)
-            return Tablas();
-          else if (state is ChartsState) return Graficas();
+            return Tablas(listadoDeDatos: state.listaDatos);
+          else if (state is ChartsState)
+            return Graficas(
+              listadoDeDatos: state.listaDatos,
+              showBarChart: state.showAsBarChart,
+            );
 
           return Center(child: CircularProgressIndicator());
         },
